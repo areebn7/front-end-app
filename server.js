@@ -62,6 +62,19 @@ app.put('/api/customers/:id', async (req, res) => {
   }
 });
 
+// POST (add) a new customer
+app.post('/api/customers', async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    const newCustomer = new Customer({ name, email, password });
+    await newCustomer.save();
+    res.status(201).json(newCustomer);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 // Root route
 app.get('/', (req, res) => {
   res.send('Welcome to the Customer Management API');
