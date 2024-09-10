@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 function HomePage() {
   // Static array of customer data
@@ -9,23 +8,28 @@ function HomePage() {
     { name: 'Charlie', email: 'charlie@example.com', password: 'password789' },
   ];
 
-// State for form mode (Add/Update)
-const [formState, setFormState] = useState('Add');
+  // State for form mode (Add/Update)
+  const [formState, setFormState] = useState('Add');
 
-// Placeholder functions for buttons
-const handleSave = () => {
-  console.log('Save button clicked');
-};
+  // Placeholder functions for buttons
+  const handleSave = () => {
+    console.log('Save button clicked');
+  };
 
-const handleDelete = () => {
-  console.log('Delete button clicked');
-};
+  const handleDelete = () => {
+    console.log('Delete button clicked');
+  };
 
-const handleCancel = () => {
-  console.log('Cancel button clicked');
-};
+  const handleCancel = () => {
+    console.log('Cancel button clicked');
+  };
 
-return (
+  // Function to handle row click
+  const handleRowClick = (customer) => {
+    console.log('Customer row clicked:', customer);
+  };
+
+  return (
     <div>
       {/* Title */}
       <h1>Customer Management System</h1>
@@ -42,7 +46,7 @@ return (
         </thead>
         <tbody>
           {customers.map((customer, index) => (
-            <tr key={index}>
+            <tr key={index} onClick={() => handleRowClick(customer)}>
               <td>{customer.name}</td>
               <td>{customer.email}</td>
               <td>{customer.password}</td>
@@ -75,4 +79,4 @@ return (
   );
 }
 
-export default HomePage
+export default HomePage;
