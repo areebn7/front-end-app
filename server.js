@@ -24,19 +24,48 @@ const customerSchema = new mongoose.Schema({
 const Customer = mongoose.model('Customer', customerSchema);
 
 // API endpoint to get customers
-// app.get('/', async (req, res) => {
-//   try {
-//     const customers = await Customer.find();
-//     res.json(customers);
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// });
+app.get('/api/customers', async (req, res) => {
+  try {
+    const customers = await Customer.find();
+    res.json(customers);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
+// DELETE customer by ID
+app.delete('/api/customers/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Customer.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Customer deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// PUT (update) customer by ID
+app.put('/api/customers/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, password } = req.body;
+
+    const updatedCustomer = await Customer.findByIdAndUpdate(
+      id,
+      { name, email, password },
+      { new: true } // Return the updated customer
+    );
+
+    res.status(200).json(updatedCustomer);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Root route
 app.get('/', (req, res) => {
   res.send('Welcome to the Customer Management API');
 });
-
 
 // Start the server
 app.listen(5000, () => {
