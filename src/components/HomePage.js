@@ -27,28 +27,30 @@ function HomePage() {
     fetchCustomers();
   }, []);
 
+  const handleInputChange = function (event) {
+    console.log("in handleInputChange()");
+    const name = event.target.name;
+    const value = event.target.value;
+    setFormValues(prevValues => ({
+      ...prevValues,
+      [name]: value
+    }));
+  };
+
   const handleSave = async () => {
     try {
       if (formState === 'Update' && selectedCustomer) {
         // Update the existing customer (PUT request)
         const response = await axios.put(`http://localhost:5000/api/customers/${selectedCustomer._id}`, formValues);
-        
-        // Update the customers list with the updated customer
-        setCustomers((prevCustomers) =>
-          prevCustomers.map((customer) =>
+        setCustomers(prevCustomers =>
+          prevCustomers.map(customer =>
             customer._id === selectedCustomer._id ? response.data : customer
           )
         );
-        
-        console.log('Customer updated successfully');
       } else {
         // Add a new customer (POST request)
         const response = await axios.post('http://localhost:5000/api/customers', formValues);
-        
-        // Add the new customer to the customers list
-        setCustomers((prevCustomers) => [...prevCustomers, response.data]);
-        
-        console.log('Customer added successfully');
+        setCustomers(prevCustomers => [...prevCustomers, response.data]);
       }
 
       // Reset the form after saving
@@ -63,18 +65,11 @@ function HomePage() {
   const handleDelete = async () => {
     if (selectedCustomer) {
       try {
-        // Send DELETE request to the backend
         await axios.delete(`http://localhost:5000/api/customers/${selectedCustomer._id}`);
-        
-        // Update the customer list after deletion
         setCustomers(prevCustomers => prevCustomers.filter(customer => customer._id !== selectedCustomer._id));
-
-        // Clear the form and unselect the customer
         setSelectedCustomer(null);
         setFormState('Add');
         setFormValues({ name: '', email: '', password: '' });
-        
-        console.log('Customer deleted successfully');
       } catch (error) {
         console.error('Error deleting customer:', error);
       }
@@ -91,12 +86,10 @@ function HomePage() {
 
   const handleRowClick = (customer) => {
     if (selectedCustomer && selectedCustomer._id === customer._id) {
-      // If the selected customer is clicked again, unselect it
       setSelectedCustomer(null);
       setFormState('Add');
       setFormValues({ name: '', email: '', password: '' });
     } else {
-      // Select the customer and update the form
       setSelectedCustomer(customer);
       setFormState('Update');
       setFormValues({ name: customer.name, email: customer.email, password: customer.password });
@@ -105,14 +98,6 @@ function HomePage() {
 
   const getRowStyle = (customer) => {
     return selectedCustomer && selectedCustomer._id === customer._id ? { fontWeight: 'bold' } : {};
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues(prevValues => ({
-      ...prevValues,
-      [name]: value
-    }));
   };
 
   return (
@@ -155,6 +140,8 @@ function HomePage() {
             name="name"
             value={formValues.name}
             onChange={handleInputChange}
+            placeholder="Customer Name"
+            required
           />
         </div>
         <div className="form-group">
@@ -166,6 +153,8 @@ function HomePage() {
             name="email"
             value={formValues.email}
             onChange={handleInputChange}
+            placeholder="Customer Email"
+            required
           />
         </div>
         <div className="form-group">
@@ -177,6 +166,8 @@ function HomePage() {
             name="password"
             value={formValues.password}
             onChange={handleInputChange}
+            placeholder="Customer Password"
+            required
           />
         </div>
         <button type="button" className="btn btn-primary" onClick={handleSave}>Save</button>
