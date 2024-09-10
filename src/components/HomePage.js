@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function HomePage() {
   // Static array of customer data with IDs
@@ -62,14 +63,14 @@ function HomePage() {
   };
 
   return (
-    <div>
+    <div className="container mt-4">
       {/* Title */}
-      <h1>Customer Management System</h1>
+      <h1 className="mb-4">Customer Management System</h1>
 
       {/* Table of customers */}
-      <h2>Customer List</h2>
-      <table border="1">
-        <thead>
+      <h2 className="mb-3">Customer List</h2>
+      <table className="table table-striped table-bordered">
+        <thead className="thead-light">
           <tr>
             <th>Name</th>
             <th>Email</th>
@@ -82,6 +83,7 @@ function HomePage() {
               key={customer.id}
               onClick={() => handleRowClick(customer)}
               style={getRowStyle(customer)}
+              className="cursor-pointer"
             >
               <td>{customer.name}</td>
               <td>{customer.email}</td>
@@ -92,24 +94,45 @@ function HomePage() {
       </table>
 
       {/* Customer form */}
-      <h2>{formState} Customer</h2>
+      <h2 className="mb-3">{formState} Customer</h2>
       <form>
-        <label>
-          Name: <input type="text" name="name" value={formValues.name} onChange={handleInputChange} />
-        </label>
-        <br />
-        <label>
-          Email: <input type="email" name="email" value={formValues.email} onChange={handleInputChange} />
-        </label>
-        <br />
-        <label>
-          Password: <input type="password" name="password" value={formValues.password} onChange={handleInputChange} />
-        </label>
-        <br />
+        <div className="form-group">
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            className="form-control"
+            id="name"
+            name="name"
+            value={formValues.name}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            className="form-control"
+            id="email"
+            name="email"
+            value={formValues.email}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            className="form-control"
+            id="password"
+            name="password"
+            value={formValues.password}
+            onChange={handleInputChange}
+          />
+        </div>
         {/* Buttons */}
-        <button type="button" onClick={handleSave}>Save</button>
-        <button type="button" onClick={handleDelete}>Delete</button>
-        <button type="button" onClick={handleCancel}>Cancel</button>
+        <button type="button" className="btn btn-primary" onClick={handleSave}>Save</button>
+        <button type="button" className="btn btn-danger m-2" onClick={handleDelete}>Delete</button>
+        <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
       </form>
     </div>
   );
