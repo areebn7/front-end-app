@@ -30,16 +30,19 @@ function HomePage() {
   };
 
   const handleCancel = () => {
-    console.log('Cancel button clicked');
+    if (selectedCustomer) {
+      // Clear the form and unselect the customer
+      setSelectedCustomer(null);
+      setFormState('Add');
+      setFormValues({ name: '', email: '', password: '' });
+    }
   };
 
   // Function to handle row click
   const handleRowClick = (customer) => {
     if (selectedCustomer && selectedCustomer.id === customer.id) {
-      // Clear the form and unbold the row
-      setSelectedCustomer(null);
-      setFormState('Add');
-      setFormValues({ name: '', email: '', password: '' });
+      // Do nothing if the same customer is clicked again
+      return;
     } else {
       // Set selected customer and update the form state
       setSelectedCustomer(customer);
