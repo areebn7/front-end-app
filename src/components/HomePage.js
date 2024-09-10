@@ -1,62 +1,112 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function HomePage() {
-  // Static array of customer data with IDs
-  const customers = [
-    { id: 1, name: 'Areeb', email: 'areeb@adp.com', password: 'itachi23' },
-    { id: 2, name: 'Tuan', email: 'tuan@adp.com', password: 'ronaldo7' },
-    { id: 3, name: 'Pranjal', email: 'pranjal@adp.com', password: 'onepiece12' },
-  ];
-
   // State for form mode (Add/Update)
   const [formState, setFormState] = useState('Add');
   const [selectedCustomer, setSelectedCustomer] = useState(null);
-
-  // State for form inputs
   const [formValues, setFormValues] = useState({
     name: '',
     email: '',
     password: ''
   });
+  const [customers, setCustomers] = useState([]);
 
-  // Placeholder functions for buttons
-  const handleSave = () => {
-    console.log('Save button clicked');
+  useEffect(() => {
+    // Fetch customers from the backend
+    const fetchCustomers = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/customers');
+        setCustomers(response.data);
+      } catch (error) {
+        console.error('Error fetching customers:', error);
+      }
+    };
+
+    fetchCustomers();
+  }, []);
+
+  const handleSave = async () => {
+    try {
+      if (formState === 'Update' && selectedCustomer) {
+        // Update the existing customer (PUT request)
+        const response = await axios.put(`http://localhost:5000/api/customers/${selectedCustomer._id}`, formValues);
+        
+        // Update the customers list with the updated customer
+        setCustomers((prevCustomers) =>
+          prevCustomers.map((customer) =>
+            customer._id === selectedCustomer._id ? response.data : customer
+          )
+        );
+        
+        console.log('Customer updated successfully');
+      } else {
+        // Add a new customer (POST request)
+        const response = await axios.post('http://localhost:5000/api/customers', formValues);
+        
+        // Add the new customer to the customers list
+        setCustomers((prevCustomers) => [...prevCustomers, response.data]);
+        
+        console.log('Customer added successfully');
+      }
+
+      // Reset the form after saving
+      setSelectedCustomer(null);
+      setFormState('Add');
+      setFormValues({ name: '', email: '', password: '' });
+    } catch (error) {
+      console.error('Error saving customer:', error);
+    }
   };
 
-  const handleDelete = () => {
-    console.log('Delete button clicked');
+  const handleDelete = async () => {
+    if (selectedCustomer) {
+      try {
+        // Send DELETE request to the backend
+        await axios.delete(`http://localhost:5000/api/customers/${selectedCustomer._id}`);
+        
+        // Update the customer list after deletion
+        setCustomers(prevCustomers => prevCustomers.filter(customer => customer._id !== selectedCustomer._id));
+
+        // Clear the form and unselect the customer
+        setSelectedCustomer(null);
+        setFormState('Add');
+        setFormValues({ name: '', email: '', password: '' });
+        
+        console.log('Customer deleted successfully');
+      } catch (error) {
+        console.error('Error deleting customer:', error);
+      }
+    }
   };
 
   const handleCancel = () => {
     if (selectedCustomer) {
-      // Clear the form and unselect the customer
       setSelectedCustomer(null);
       setFormState('Add');
       setFormValues({ name: '', email: '', password: '' });
     }
   };
 
-  // Function to handle row click
   const handleRowClick = (customer) => {
-    if (selectedCustomer && selectedCustomer.id === customer.id) {
-      // Do nothing if the same customer is clicked again
-      return;
+    if (selectedCustomer && selectedCustomer._id === customer._id) {
+      // If the selected customer is clicked again, unselect it
+      setSelectedCustomer(null);
+      setFormState('Add');
+      setFormValues({ name: '', email: '', password: '' });
     } else {
-      // Set selected customer and update the form state
+      // Select the customer and update the form
       setSelectedCustomer(customer);
       setFormState('Update');
       setFormValues({ name: customer.name, email: customer.email, password: customer.password });
     }
   };
 
-  // Function to determine if a row should be bold
   const getRowStyle = (customer) => {
-    return selectedCustomer && selectedCustomer.id === customer.id ? { fontWeight: 'bold' } : {};
+    return selectedCustomer && selectedCustomer._id === customer._id ? { fontWeight: 'bold' } : {};
   };
 
-  // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues(prevValues => ({
@@ -67,10 +117,8 @@ function HomePage() {
 
   return (
     <div className="container mt-4">
-      {/* Title */}
       <h1 className="mb-4">Customer Management System</h1>
 
-      {/* Table of customers */}
       <h2 className="mb-3">Customer List</h2>
       <table className="table table-striped table-bordered">
         <thead className="thead-light">
@@ -83,7 +131,7 @@ function HomePage() {
         <tbody>
           {customers.map((customer) => (
             <tr
-              key={customer.id}
+              key={customer._id}
               onClick={() => handleRowClick(customer)}
               style={getRowStyle(customer)}
               className="cursor-pointer"
@@ -96,7 +144,6 @@ function HomePage() {
         </tbody>
       </table>
 
-      {/* Customer form */}
       <h2 className="mb-3">{formState} Customer</h2>
       <form>
         <div className="form-group">
@@ -132,7 +179,6 @@ function HomePage() {
             onChange={handleInputChange}
           />
         </div>
-        {/* Buttons */}
         <button type="button" className="btn btn-primary" onClick={handleSave}>Save</button>
         <button type="button" className="btn btn-danger m-2" onClick={handleDelete}>Delete</button>
         <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
