@@ -3,9 +3,9 @@ import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
 function Navbar({ title = 'CMS' }) {
   return (
-    <nav className="navbar navbar-expand-lg bg-primary bg-black mb-4" data-bs-theme="dark">
+    <nav className="navbar navbar-expand-lg bg-primary mb-4" data-bs-theme="dark">
       <div className="container-fluid">
-        <Link className="navbar-brand p-4" to="/">
+        <Link className="navbar-brand mx-4" to="/">
           {title}
         </Link>
         <button
