@@ -1,28 +1,21 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import CustomerPage from './components/CustomerPage';
+import Layout from './components/Layout';
+import Home from './components/Home'; // Import Home component
 
 function App() {
   return (
     <Router>
-      <div className="container mt-4">
-        <h1 className="mb-4">Customer Management System</h1>
-
-        {/* Navigation Links */}
-        <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/customers">Customer List</Link></li>
-            <li><Link to="/form">Add/Update Customer</Link></li>
-          </ul>
-        </nav>
-
-        {/* Define Routes */}
+      <Layout>
         <Routes>
-          <Route path="/" element={<h2>Welcome to the Customer Management System!</h2>} />
+          <Route path="/" element={<Home />} />
           <Route path="/customers" element={<CustomerPage />} />
+
+          {/* Catch-all Route for undefined URLs */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </div>
+      </Layout>
     </Router>
   );
 }

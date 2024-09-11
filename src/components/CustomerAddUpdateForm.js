@@ -5,7 +5,7 @@ function CustomerAddUpdateForm({ formState, formValues, onInputChange, onSave, o
     <>
       <h2 className="mb-3">{formState} Customer</h2>
       <form>
-        <div className="form-group">
+        <div className="form-group mb-4">
           <label htmlFor="name">Name:</label>
           <input
             type="text"
@@ -14,11 +14,11 @@ function CustomerAddUpdateForm({ formState, formValues, onInputChange, onSave, o
             name="name"
             value={formValues.name}
             onChange={onInputChange}
-            placeholder="Customer Name"
+            placeholder="Enter Name"
             required
           />
         </div>
-        <div className="form-group">
+        <div className="form-group mb-4">
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -27,7 +27,7 @@ function CustomerAddUpdateForm({ formState, formValues, onInputChange, onSave, o
             name="email"
             value={formValues.email}
             onChange={onInputChange}
-            placeholder="Customer Email"
+            placeholder="Enter Email"
             required
           />
         </div>
@@ -40,7 +40,7 @@ function CustomerAddUpdateForm({ formState, formValues, onInputChange, onSave, o
             name="password"
             value={formValues.password}
             onChange={onInputChange}
-            placeholder="Customer Password"
+            placeholder="Enter Password"
             required
           />
         </div>
