@@ -3,7 +3,7 @@ import React from 'react';
 function CustomerAddUpdateForm({ formState, formValues, onInputChange, onSave, onDelete, onCancel }) {
   return (
     <>
-      <h2 className="mb-3">{formState} Customer</h2>
+      <h2 className="mb-4 mt-4">{formState} Customer</h2>
       <form>
   <div className="row mb-4">
     <div className="col-md-2">

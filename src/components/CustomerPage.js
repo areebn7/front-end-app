@@ -12,6 +12,8 @@ function CustomerPage() {
     password: ''
   });
   const [customers, setCustomers] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);  // Error alert state
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);  // Success alert state
 
   useEffect(() => {
     const fetchCustomers = async () => {
@@ -33,9 +35,20 @@ function CustomerPage() {
       ...prevValues,
       [name]: value
     }));
+
+    // Hide the alerts if the user starts typing again
+    if (showAlert) setShowAlert(false);
+    if (showSuccessAlert) setShowSuccessAlert(false);
   };
 
   const handleSave = async () => {
+    // Check if any field is empty
+    if (!formValues.name || !formValues.email || !formValues.password) {
+      setShowAlert(true);  // Show error alert if validation fails
+      window.scrollTo({ top: 0, behavior: 'smooth' });  // Scroll to the top of the page smoothly
+      return;  // Exit the function if validation fails
+    }
+
     try {
       if (formState === 'Update' && selectedCustomer) {
         const response = await axios.put(`http://localhost:5000/api/customers/${selectedCustomer._id}`, formValues);
@@ -48,6 +61,10 @@ function CustomerPage() {
         const response = await axios.post('http://localhost:5000/api/customers', formValues);
         setCustomers(prevCustomers => [...prevCustomers, response.data]);
       }
+
+      // Show success alert when customer is saved successfully
+      setShowSuccessAlert(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });  // Scroll to the top to show the success alert
 
       setSelectedCustomer(null);
       setFormState('Add');
@@ -72,12 +89,12 @@ function CustomerPage() {
   };
 
   const handleCancel = () => {
-    // This clears the selected customer and resets the form to 'Add' state
-    setSelectedCustomer(null);
-    setFormState('Add');
-    setFormValues({ name: '', email: '', password: '' });  // Reset the form fields
+    if (selectedCustomer) {
+      setSelectedCustomer(null);
+      setFormState('Add');
+      setFormValues({ name: '', email: '', password: '' });
+    }
   };
-  
 
   const handleRowClick = (customer) => {
     if (selectedCustomer && selectedCustomer._id === customer._id) {
@@ -93,6 +110,30 @@ function CustomerPage() {
 
   return (
     <div>
+      {/* Error Alert */}
+      {showAlert && (
+        <div className="alert alert-dismissible alert-danger">
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setShowAlert(false)}  // Close the alert
+          ></button>
+          <strong>Oh snap!</strong> <a href="#" className="alert-link">Change a few things up</a> and try submitting again.
+        </div>
+      )}
+
+      {/* Success Alert */}
+      {showSuccessAlert && (
+        <div className="alert alert-dismissible alert-success">
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setShowSuccessAlert(false)}  // Close the alert
+          ></button>
+          <strong>Well done!</strong> You successfully read this important alert message.
+        </div>
+      )}
+
       <CustomerList
         customers={customers}
         onRowClick={handleRowClick}
