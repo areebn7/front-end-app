@@ -72,12 +72,12 @@ function CustomerPage() {
   };
 
   const handleCancel = () => {
-    if (selectedCustomer) {
-      setSelectedCustomer(null);
-      setFormState('Add');
-      setFormValues({ name: '', email: '', password: '' });
-    }
+    // This clears the selected customer and resets the form to 'Add' state
+    setSelectedCustomer(null);
+    setFormState('Add');
+    setFormValues({ name: '', email: '', password: '' });  // Reset the form fields
   };
+  
 
   const handleRowClick = (customer) => {
     if (selectedCustomer && selectedCustomer._id === customer._id) {
