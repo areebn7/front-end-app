@@ -16,6 +16,7 @@ function CustomerPage() {
   const [showSuccessAlert, setShowSuccessAlert] = useState(false); // Success alert state
   const [showDeleteSuccessAlert, setShowDeleteSuccessAlert] = useState(false); // Delete success alert state
   const [showNoSelectionAlert, setShowNoSelectionAlert] = useState(false); // No customer selected alert state
+  const [showForm, setShowForm] = useState(false); // Form hidden initially
 
   useEffect(() => {
     const fetchCustomers = async () => {
@@ -164,6 +165,11 @@ function CustomerPage() {
     }
   };
 
+  // Toggle form visibility
+  const toggleFormVisibility = () => {
+    setShowForm(!showForm);
+  };
+
   return (
     <div>
       {/* Error Alert */}
@@ -216,19 +222,29 @@ function CustomerPage() {
         </div>
       )}
 
+      {/* Customer List */}
       <CustomerList
         customers={customers}
         onRowClick={handleRowClick}
         selectedCustomer={selectedCustomer}
       />
-      <CustomerAddUpdateForm
-        formState={formState}
-        formValues={formValues}
-        onInputChange={handleInputChange}
-        onSave={handleSave}
-        onDelete={handleDelete}
-        onCancel={handleCancel}
-      />
+
+      {/* Toggle Form Button below the table */}
+      <button type="button" className="btn btn-info my-4" onClick={toggleFormVisibility}>
+        {showForm ? "Hide Form" : "Show Form"}
+      </button>
+
+      {/* Conditionally Render Form */}
+      {showForm && (
+        <CustomerAddUpdateForm
+          formState={formState}
+          formValues={formValues}
+          onInputChange={handleInputChange}
+          onSave={handleSave}
+          onDelete={handleDelete}
+          onCancel={handleCancel}
+        />
+      )}
     </div>
   );
 }
