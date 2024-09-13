@@ -3,7 +3,7 @@ import axios from "axios";
 import CustomerList from "./CustomerList";
 import CustomerAddUpdateForm from "./CustomerAddUpdateForm";
 
-function CustomerPage() {
+function HandleCustomer() {
   const [formState, setFormState] = useState("Add");
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [formValues, setFormValues] = useState({
@@ -264,4 +264,4 @@ function CustomerPage() {
   );
 }
 
-export default CustomerPage;
+export default HandleCustomer;

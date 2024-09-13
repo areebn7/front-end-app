@@ -5,7 +5,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import CustomerPage from "./components/CustomerPage";
+import CustomerPage from "./components/HandleCustomer";
 import Layout from "./layout/Layout";
 import Home from "./pages/Home"; 
 import About from "./pages/About";
