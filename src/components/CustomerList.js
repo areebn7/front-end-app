@@ -1,8 +1,10 @@
-import React from 'react';
+import React from "react";
 
 function CustomerList({ customers, onRowClick, selectedCustomer }) {
   const getRowStyle = (customer) => {
-    return selectedCustomer && selectedCustomer._id === customer._id ? { fontWeight: 'bold' } : {};
+    return selectedCustomer && selectedCustomer._id === customer._id
+      ? { fontWeight: "bold" }
+      : {};
   };
 
   return (

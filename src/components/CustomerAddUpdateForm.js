@@ -1,6 +1,13 @@
-import React from 'react';
+import React from "react";
 
-function CustomerAddUpdateForm({ formState, formValues, onInputChange, onSave, onDelete, onCancel }) {
+function CustomerAddUpdateForm({
+  formState,
+  formValues,
+  onInputChange,
+  onSave,
+  onDelete,
+  onCancel,
+}) {
   return (
     <>
       <h2 className="mb-4 mt-4">{formState} Customer</h2>
@@ -63,9 +70,27 @@ function CustomerAddUpdateForm({ formState, formValues, onInputChange, onSave, o
           <div className="col-md-12">
             {/* Button Container aligned to the right */}
             <div className="d-flex justify-content-end mb-4">
-              <button type="button" className="btn btn-dark mx-1" onClick={onSave}>Save</button>
-              <button type="button" className="btn btn-danger mx-1" onClick={onDelete}>Delete</button>
-              <button type="button" className="btn btn-light mx-1" onClick={onCancel}>Cancel</button>
+              <button
+                type="button"
+                className="btn btn-dark mx-1"
+                onClick={onSave}
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger mx-1"
+                onClick={onDelete}
+              >
+                Delete
+              </button>
+              <button
+                type="button"
+                className="btn btn-light mx-1"
+                onClick={onCancel}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>

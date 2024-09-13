@@ -33,7 +33,12 @@ function CustomerPage() {
 
   // Auto-dismiss alerts after 5 seconds
   useEffect(() => {
-    if (showAlert || showSuccessAlert || showDeleteSuccessAlert || showNoSelectionAlert) {
+    if (
+      showAlert ||
+      showSuccessAlert ||
+      showDeleteSuccessAlert ||
+      showNoSelectionAlert
+    ) {
       const timeout = setTimeout(() => {
         setShowAlert(false);
         setShowSuccessAlert(false);
@@ -44,7 +49,12 @@ function CustomerPage() {
       // Cleanup timeout when component unmounts or alert changes
       return () => clearTimeout(timeout);
     }
-  }, [showAlert, showSuccessAlert, showDeleteSuccessAlert, showNoSelectionAlert]);
+  }, [
+    showAlert,
+    showSuccessAlert,
+    showDeleteSuccessAlert,
+    showNoSelectionAlert,
+  ]);
 
   const handleInputChange = (event) => {
     const name = event.target.name;
@@ -218,7 +228,8 @@ function CustomerPage() {
             class="btn-close"
             onClick={() => setShowNoSelectionAlert(false)}
           ></button>
-          <strong>No Customer Selected!</strong> Please select a customer to delete.
+          <strong>No Customer Selected!</strong> Please select a customer to
+          delete.
         </div>
       )}
 
@@ -230,7 +241,11 @@ function CustomerPage() {
       />
 
       {/* Toggle Form Button below the table */}
-      <button type="button" className="btn btn-info my-4" onClick={toggleFormVisibility}>
+      <button
+        type="button"
+        className="btn btn-info my-4"
+        onClick={toggleFormVisibility}
+      >
         {showForm ? "Hide Form" : "Show Form"}
       </button>
 

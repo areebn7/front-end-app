@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import CustomerPage from "./components/CustomerPage";
 import Layout from "./layout/Layout";
-import Home from "./pages/Home"; // Import Home component
+import Home from "./pages/Home"; 
 import About from "./pages/About";
 
 function App() {

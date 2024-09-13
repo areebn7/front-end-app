@@ -1,9 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
-function Navbar({ title = 'CMS' }) {
+function Navbar({ title = "CMS" }) {
   return (
-    <nav className="navbar navbar-expand-lg bg-primary mb-4" data-bs-theme="dark">
+    <nav
+      className="navbar navbar-expand-lg bg-primary mb-4"
+      data-bs-theme="dark"
+    >
       <div className="container-fluid">
         <Link className="navbar-brand mx-4" to="/">
           {title}
