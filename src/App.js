@@ -1,9 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import CustomerPage from './components/CustomerPage';
-import Layout from './components/Layout';
-import Home from './components/Home'; // Import Home component
-import About from './components/About';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import CustomerPage from "./components/CustomerPage";
+import Layout from "./layout/Layout";
+import Home from "./pages/Home"; // Import Home component
+import About from "./pages/About";
 
 function App() {
   return (
